@@ -77,3 +77,11 @@ body{
 .incorrectColor{
     background-color: red;
 }
+
+.btn-select{
+    border-radius: 10px;
+    /* How to assign a property over one? */
+    /* background-color: black;
+    color: white; */
+}
+

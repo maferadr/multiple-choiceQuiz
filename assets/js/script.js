@@ -213,7 +213,7 @@ function cleanResults(){
     incorrectChoice.innerHTML = 'Incorrect(s): ';
 }
 
-// SetInterval timer to generate the remaining seconds
+// SetInterval timer to generate the remaining seconds - DOUBLE CHECK WHY HASN'T BEEN STOPED
 
 function setTimer(){
     timer = setInterval(function(){
