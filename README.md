@@ -17,6 +17,8 @@ THEN time is subtracted from the clock under a SetInterval function.
 WHEN all questions are answered or the timer reaches 0.
 THEN the game is over.
 
+## Deployment
+https://maferadr.github.io/multiple-choiceQuiz/
 
 
 https://github.com/maferadr/multiple-choiceQuiz/assets/95540471/b776766a-c561-4123-963f-556602f78146
