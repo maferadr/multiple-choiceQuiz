@@ -1,0 +1,79 @@
+:root{
+    --font-funky : 'Vina Sans', sans-serif;
+}
+
+header{
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-family: var(--font-funky);
+    border-bottom: 1px solid white;
+}
+
+h1{
+    font-size: 50px;
+}
+
+h2, h3{
+    font-family: var(--font-funky);
+}
+
+.p-header{
+    opacity: 0.4;
+    font-family: 'Abril Fatface', cursive;
+}
+
+body{
+    background-image: url('/multiple-choiceQuiz/assets/imgs/bg-img-quiz.jpg');
+}
+
+.list-title{
+    justify-content: end;
+    text-align: right;
+    border-bottom: 1px solid white;
+}
+
+.list-item{
+    list-style: none;
+    text-decoration: none;
+    float: right;
+    padding: 2%;
+    opacity: 0.6;
+}
+
+.container{
+    display: block;
+    justify-content: center;
+    align-items: center;
+    padding: 5%;
+    font-family: serif;
+    margin-top: 5%;
+}
+
+.title, .prompts{
+    text-align: center;
+}
+
+.btn{
+    display: block;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.btn-next{
+    display: none;
+}
+
+.game-timer{
+    opacity: 0.4;
+    margin-top: 5%;
+}
+
+.correctColor{
+    background-color: green;
+}
+
+.incorrectColor{
+    background-color: red;
+}
