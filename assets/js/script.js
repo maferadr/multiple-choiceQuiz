@@ -1,15 +1,3 @@
-// GIVEN I am taking a code quiz
-// WHEN I click the start button
-// THEN a timer starts and I am presented with a question
-// WHEN I answer a question
-// THEN I am presented with another question
-// WHEN I answer a question incorrectly
-// THEN time is subtracted from the clock
-// WHEN all questions are answered or the timer reaches 0
-// THEN the game is over
-// WHEN the game is over
-// THEN I can save my initials and my score
-
 
 //Assign and call for global variables
 
@@ -21,24 +9,23 @@ var resultsDisplayed = document.querySelector('.results');
 var btnNext = document.querySelector('.btn-next');
 var btnSelect = document.querySelector('.answer-buttons');
 
+//Assign an Index variable in 0 to start iterate each Quiz Question
 var index = 0;
 
 //we set up variables for the correct and incorrect
 var correctChoice = document.querySelector('.correct');
 var incorrectChoice = document.querySelector('.incorrect');
 
-var isWin = false;
+//Empty Numeric values for wins and losses in order to increment these values.
 var wins = 0;
 var looses = 0;
 var wordBlank = '_';
-var choosenQuestion = '';
 
-//Timer as well
-var secsDisplayed = document.querySelector('.seconds-timer');
+//Timer Variables are being set up in a Global Scope for being called in the rest of functions.
 var timer;
 var timerCount;
 
-//Array of each prompt and questions are going to be displayed on the screen // Index iterator(?
+//Array of each prompt and questions are going to be displayed on the screen
 var questions = [
     {
         question: 'Commonly used data types DO NOT include:',
@@ -106,9 +93,11 @@ var startGame = ()=>{
     wins = 0;
     looses = 0;
     btnNext.innerHTML = 'Next';
+    setTimer();
     showQuestion();
 }
 
+//ShowQuestion function will display each question in the screen once they're being answered.
 function showQuestion(){
     resetState();
     var currentQuestion = questions[index];
@@ -130,6 +119,7 @@ function showQuestion(){
     btnStart.style.display = 'none';
 }
 
+//This function will define that the previous buttons will NOT be displayed on the screen once being selected.
 function resetState(){
     btnNext.style.display = 'none';
     while(btnSelect.firstChild){
@@ -137,6 +127,7 @@ function resetState(){
     }
 }
 
+//Once the user selects each option, the ClassList will assign a color for either correct or incorrect.
 function answerSelected(e){
     var btnSelected = e.target;
     var correctChecked = btnSelected.dataset.correctChoice === 'true';
@@ -148,12 +139,15 @@ function answerSelected(e){
         loseDisplayed()
     }
 
+    //Once selected, the user won't be able to select another answered
     Array.from(btnSelect.children).forEach(buttonSelect =>{
         if(buttonSelect.dataset.correctChoice === 'true'){
             buttonSelect.classList.add('correctColor')
         }
         buttonSelect.disabled = true;
     });
+
+    localStorage.setItem("answers", JSON.stringify(btnSelected));
 }
 
 function handleNextButton(){
@@ -174,16 +168,12 @@ btnNext.addEventListener('click', ()=>{
 })
 
 function getWins(){
-
+    localStorage
 }
 
 function getLosses(){
 
 }
-
-// function questionGenerator(){
-//     choosenQuestion = questions[Math.floor(Math.random() * currentQuestion.length)]
-// }
 
 btnStart.addEventListener('click', startGame);
 
@@ -192,7 +182,7 @@ function winDisplayed(){
     wins++;
     btnStart.disabled = false;
     btnNext.style.display = 'block';
-    setWins();
+    // setWins();
 }
 
 function loseDisplayed(){
@@ -200,7 +190,7 @@ function loseDisplayed(){
     looses++;
     btnStart.disabled = false;
     btnNext.style.display = 'block';
-    setLosses();
+    // setLosses();
 }
 
 function setwins(){
@@ -212,40 +202,24 @@ function setLosses(){
 
 }
 
-// //SetInterval timer to generate the remaining seconds
-// function setTimer(){
-//     timer = setInterval(function(){
-//         timerCount--;
-//         timerElement.textContent = timerCount;
-//         if(timerCount >= 0){
-//             if(isWin && timerCount > 0){
-//                 clearInterval(timer);
-//                 winDisplayed();
-//             }
-//         }
+//SetInterval timer to generate the remaining seconds
+function setTimer(){
+    timer = setInterval(function(){
+        timerCount--;
+        timerElement.textContent = timerCount;
+        if(timerCount >= 0){
+            if(isWin && timerCount > 0){
+                clearInterval(timer);
+                winDisplayed();
+            }
+        }
 
-//         if(timerCount === 0){
-//             clearInterval(timer);
-//             loseDisplayed();
-//         }
-//     }, 1000);
-// }
-
-// btnStart.addEventListener('click', startGame);
-
-
-// //Question verification - Correct or wrong
-// // function verification(){
-// //     questionGenerator()
-
-//     btnSelect.addEventListener('click', (rightOptions)=>{
-//         if(rightOptions){
-//             winDisplayed();
-//         }else{
-//             loseDisplayed();
-//         }
-//     })
-// }
+        if(timerCount === 0){
+            clearInterval(timer);
+            loseDisplayed();
+        }
+    }, 1000);
+}
 
 //Iterator to increment the value of wins and looses
 
