@@ -1,5 +1,5 @@
 
-//Assign and call for global variables
+//Assign and call for global variables.
 
 var container = document.querySelector('.col-8');
 var titlePrompt = document.querySelector('.title');
@@ -9,10 +9,10 @@ var resultsDisplayed = document.querySelector('.results');
 var btnNext = document.querySelector('.btn-next');
 var btnSelect = document.querySelector('.answer-buttons');
 
-//Assign an Index variable in 0 to start iterate each Quiz Question
+//Assign an Index variable in 0 to start iterate each Quiz Question.
 var index = 0;
 
-//we set up variables for the correct and incorrect
+//we set up variables for the correct and incorrect.
 var correctChoice = document.querySelector('.correct');
 var incorrectChoice = document.querySelector('.incorrect');
 
@@ -20,12 +20,17 @@ var incorrectChoice = document.querySelector('.incorrect');
 var wins = 0;
 var looses = 0;
 var wordBlank = '_';
+var isWin = false;
 
 //Timer Variables are being set up in a Global Scope for being called in the rest of functions.
+var secondsTimer = document.querySelector('.seconds-timer');
+
+//Timer variables start empty to iterate their values.
 var timer;
 var timerCount;
 
 //Array of each prompt and questions are going to be displayed on the screen
+//To confirm each answer value, we assign a boolean for either correct or incorrect (true/false);
 var questions = [
     {
         question: 'Commonly used data types DO NOT include:',
@@ -79,19 +84,14 @@ var questions = [
     },
 ]
 
-
-//Init function
-function init(){
-    getWins();
-    getLosses();
-}
-
 //Start Game function will be displayed - it has to contain the SetInterval of 10secs
 
 var startGame = ()=>{
     index = 0;
     wins = 0;
     looses = 0;
+    timerCount = 10;
+    isWin = false;
     btnNext.innerHTML = 'Next';
     setTimer();
     showQuestion();
@@ -107,6 +107,7 @@ function showQuestion(){
     //Answer will be displayed
     currentQuestion.answers.forEach(answer =>{
         var buttonSelect = document.createElement('button');
+        //Each button will contain each answer value for which the user will be able to select.
         buttonSelect.innerHTML = answer.text;
         buttonSelect.classList.add('btn-select');
         btnSelect.appendChild(buttonSelect);
@@ -116,6 +117,7 @@ function showQuestion(){
         buttonSelect.addEventListener('click', answerSelected)
         })
     
+    //Once the question options are being displayed, the Start Button won't be able.
     btnStart.style.display = 'none';
 }
 
@@ -147,42 +149,53 @@ function answerSelected(e){
         buttonSelect.disabled = true;
     });
 
-    localStorage.setItem("answers", JSON.stringify(btnSelected));
+    // console.log(wins)
 }
 
+//If the user has already answer all questions, the score will be displayed. If not, the questions
+//will be iterated.
 function handleNextButton(){
     index++
     if(index < questions.length){
         showQuestion();
     }else{
-        init();
+        showScore();
     }
 }
 
+//Event Listener for Next Button.
 btnNext.addEventListener('click', ()=>{
     if(index < questions.length){
-        handleNextButton()
+        setTimer();
+        handleNextButton();
     }else{
-        startGame()
+        showScore();
     }
 })
 
-function getWins(){
-    localStorage
-}
-
-function getLosses(){
-
+//Results will be displayed for the user and set up in local storage.
+function showScore(){
+    resetState();
+    var score = correctChoice - incorrectChoice;
+    score = ~~NaN;
+    localStorage.setItem('score', JSON.stringify(score));
+    prompts.innerHTML = 'You scored ' + parseInt(score) + ' pts.';
+    btnStart.innerHTML = 'Play Again.'
+    btnStart.style.display = 'block';
+    //Call for Clean results functions to reset the score once the function is executed.
+    cleanResults();
 }
 
 btnStart.addEventListener('click', startGame);
 
+//wins and Losses will be added on the screen for either if the condition is met or not.
 function winDisplayed(){
     resultsDisplayed.textContent = "CORRECT!";
     wins++;
     btnStart.disabled = false;
     btnNext.style.display = 'block';
-    // setWins();
+    localStorage.setItem("answers", JSON.stringify(wins));
+    correctChoice.innerHTML = 'Correct(s): ' + wins;
 }
 
 function loseDisplayed(){
@@ -190,41 +203,33 @@ function loseDisplayed(){
     looses++;
     btnStart.disabled = false;
     btnNext.style.display = 'block';
-    // setLosses();
+    localStorage.setItem("answers", JSON.stringify(looses));
+    incorrectChoice.innerHTML = 'Incorrect(s) ' + looses;
 }
 
-function setwins(){
-
+//Clean all values for correct and incorrect
+function cleanResults(){
+    correctChoice.innerHTML = 'Correct(s): ';
+    incorrectChoice.innerHTML = 'Incorrect(s): ';
 }
 
-function setLosses(){
+// SetInterval timer to generate the remaining seconds
 
-
-}
-
-//SetInterval timer to generate the remaining seconds
 function setTimer(){
     timer = setInterval(function(){
         timerCount--;
-        timerElement.textContent = timerCount;
+        secondsTimer.textContent = timerCount;
         if(timerCount >= 0){
             if(isWin && timerCount > 0){
                 clearInterval(timer);
                 winDisplayed();
             }
         }
-
         if(timerCount === 0){
             clearInterval(timer);
             loseDisplayed();
         }
     }, 1000);
+
+    btnSelect.disabled = true;
 }
-
-//Iterator to increment the value of wins and looses
-
-
-//Event Listener for each button.
-
-
-//Local Storage function to save the results scored.
