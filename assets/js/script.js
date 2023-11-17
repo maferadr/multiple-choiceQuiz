@@ -117,7 +117,7 @@ function showQuestion(){
         buttonSelect.addEventListener('click', answerSelected)
         })
     
-    //Once the question options are being displayed, the Start Button won't be able.
+    //Once the question options are being displayed, the Start Button won't be available.
     btnStart.style.display = 'none';
 }
 
@@ -141,15 +141,21 @@ function answerSelected(e){
         loseDisplayed()
     }
 
-    //Once selected, the user won't be able to select another answered
+    //Once selected, the user won't be able to select another answer.
     Array.from(btnSelect.children).forEach(buttonSelect =>{
         if(buttonSelect.dataset.correctChoice === 'true'){
             buttonSelect.classList.add('correctColor')
         }
         buttonSelect.disabled = true;
+        resetTimer();
     });
 
     // console.log(wins)
+}
+
+function resetTimer(){
+    timerCount = 10;
+    // setTimer();
 }
 
 //If the user has already answer all questions, the score will be displayed. If not, the questions
@@ -162,16 +168,15 @@ function handleNextButton(){
         showScore();
     }
 }
-
 //Event Listener for Next Button.
-btnNext.addEventListener('click', ()=>{
-    if(index < questions.length){
-        setTimer();
-        handleNextButton();
-    }else{
-        showScore();
-    }
-})
+btnNext.addEventListener('click', handleNextButton)
+//     if(index < questions.length){
+//         setTimer();
+//         handleNextButton();
+//     }else{
+//         showScore();
+//     }
+// })
 
 //Results will be displayed for the user and set up in local storage.
 function showScore(){
